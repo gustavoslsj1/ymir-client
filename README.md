@@ -1,36 +1,193 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🏛️ Ymir ERP - Frontend
 
-## Getting Started
+Frontend do ERP Ymir, construído com Next.js 15, TypeScript, Tailwind CSS, shadcn/ui e Docker, garantindo uma interface moderna, escalável e consistente.
+🚀 Tecnologias
 
-First, run the development server:
+    Next.js 15 - Framework React fullstack com App Router
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    TypeScript - Superset tipado do JavaScript
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    Tailwind CSS - Framework de estilos utilitário
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    shadcn/ui - Componentes de interface acessíveis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    lucide-react - Ícones open source
 
-## Learn More
+    pnpm - Gerenciador de pacotes rápido
 
-To learn more about Next.js, take a look at the following resources:
+    Docker - Containerização
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Node.js 22 - Ambiente de execução
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📁 Estrutura do Projeto
 
-## Deploy on Vercel
+src/
+├── app/                   # Páginas e rotas via App Router
+│   ├── authenticated/     # Páginas protegidas
+│   ├── layout.tsx         # Layout global
+│   ├── page.tsx           # Página inicial
+├── components/            # Componentes reutilizáveis
+│   ├── sidebar/           # Sidebar e subcomponentes
+│   └── ui/                # UI personalizada: botões, tabelas, etc.
+├── global/                # Estilos globais
+├── hooks/                 # Hooks customizados
+├── lib/                   # Bibliotecas utilitárias
+├── styles/                # Tailwind e CSS global
+├── public/                # Arquivos estáticos
+.biome.json                # Configuração de lint e formatação
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🛠️ Configuração do Ambiente
+Pré-requisitos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    Node.js 22+
+
+    pnpm
+
+    Docker & Docker Compose
+
+✅ Instalação
+
+    Clone o repositório:
+
+git clone <repository-url>
+cd ymir-client
+
+    Instale as dependências:
+
+pnpm install
+
+    Configure as variáveis de ambiente:
+
+cp .env.example .env
+# Edite o arquivo .env conforme necessário
+
+🐳 Docker
+
+// mudar o packjason  nos scripts para start -> next start -p 3030
+Comandos Disponíveis
+
+    Build da imagem:
+
+pnpm run docker:build
+
+    Subir containers (produção):
+
+pnpm run docker:up
+
+    Subir containers (desenvolvimento):
+
+pnpm run docker:dev
+
+    Ver logs:
+
+pnpm run docker:logs
+
+    Parar containers:
+
+pnpm run docker:down
+
+    Limpar volumes e containers:
+
+pnpm run docker:clean
+
+Serviços
+
+    Frontend Prod: http://localhost:3000
+
+    Frontend Dev: http://localhost:3001 (modo dev)
+
+    Next.js Dev Tools: http://localhost:3001/_next
+
+🚀 Inicialização Manual
+Desenvolvimento (sem Docker):
+
+pnpm run dev
+
+Produção (sem Docker):
+
+pnpm run build
+pnpm run start
+
+🔍 Scripts Disponíveis
+
+    pnpm run dev - Desenvolvimento
+
+    pnpm run build - Build de produção
+
+    pnpm run start - Servidor Next.js
+
+    pnpm run lint - Lint de código
+
+    pnpm run format - Formatação automática
+
+    pnpm run docker:* - Comandos Docker (ver seção Docker)
+
+🎨 Qualidade de Código
+
+O projeto utiliza Biome para linting e formatação.
+Comandos:
+
+    pnpm run lint - Verifica problemas.
+
+    pnpm run lint:fix - Corrige automaticamente.
+
+    pnpm run format - Formata o código.
+
+    pnpm run check - Lint + format + imports.
+
+Configuração:
+
+    Arquivo: biome.json
+
+    Indentação: 2 espaços
+
+    Largura: 80 caracteres
+
+🔒 Segurança
+
+    Autenticação via JWT (integração futura)
+
+    CORS configurado
+
+    Validação de entradas
+
+🏗️ Próximas Fases
+
+    Integração com API GraphQL
+
+    Implementação completa de autenticação
+
+    Módulo de Dashboard com gráficos
+
+    Melhorias de acessibilidade
+
+🤝 Contribuição
+
+    Crie uma branch:
+    git checkout -b feature/NovaFeature
+
+    Commit:
+    git commit -m 'Add NovaFeature'
+
+    Push:
+    git push origin feature/NovaFeature
+
+    Abra um Pull Request
+
+📦 Versões
+
+    Node.js: 22
+
+    Next.js: 15
+
+    pnpm: última versão estável
+
+    Tailwind: latest
+
+    shadcn/ui: latest
+
+Quer que eu também gere o Dockerfile e docker-compose.yml padrão para este frontend?
+Se sim, me confirma:
+✅ Dockerfile
+✅ docker-compose.yml
+
