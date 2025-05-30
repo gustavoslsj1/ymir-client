@@ -3,18 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Menu, Plus } from "lucide-react";
 
-interface HeaderProps {
-  onMenuClick: () => void;
-}
-
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header() {
   return (
     <header className="bg-gradient-to-r from-blue-600 to-blue-800 border-b border-blue-700">
       <div className="flex items-center justify-between px-6 h-16">
         <Button
           variant="ghost"
           size="icon"
-          onClick={onMenuClick}
           className="md:hidden text-white hover:bg-blue-700"
         >
           <Menu size={20} />
