@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
 import {
@@ -18,14 +18,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { LoginUser } from "@/app/service/userService";
+import { creatUser } from "@/app/service/userService";
 
 export const userFormSchema = z.object({
+  name: z.string(), // valor padrão no schema
   email: z.string().email("Email inválido"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });
 
-export default function Login() {
+export default function Cadastro() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +35,7 @@ export default function Login() {
     defaultValues: {
       email: "",
       password: "",
+      name: "usuario",
     },
   });
 
@@ -41,12 +43,9 @@ export default function Login() {
     try {
       console.log("Dados do usuário:", data);
 
-      const response = await LoginUser(data);
+      await creatUser(data);
 
-      const token = response.token;
-
-      console.log("token", token);
-
+      console.log("Usuário criado com sucesso!");
       form.reset();
     } catch (error) {
       const errorMessage =
@@ -98,6 +97,30 @@ export default function Login() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Mail
+                          size={18}
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        />
+                        <Input
+                          type="nome"
+                          placeholder="exemplo@exemplo.com"
+                          className="pl-10 h-12 rounded-md"
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               {/* Password Field */}
               <FormField
@@ -113,7 +136,7 @@ export default function Login() {
                           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                         />
                         <Input
-                          type={passwordVisible ? "text" : "password"}
+                          // type={passwordVisible ? "text" : "password"}
                           placeholder="Senha"
                           className="pl-10 pr-10 h-12 rounded-md"
                           {...field}
@@ -121,30 +144,21 @@ export default function Login() {
                         <button
                           type="button"
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                          onClick={() => setPasswordVisible(!passwordVisible)}
+                          // onClick={() => setPasswordVisible(!passwordVisible)}
                         >
-                          {passwordVisible ? (
+                          {/* {passwordVisible ? (
                             <Eye size={18} />
                           ) : (
                             <EyeOff size={18} />
-                          )}
+                          )} */}
                         </button>
                       </div>
                     </FormControl>
                     <FormMessage />
+                    <Button type="submit">Cadastrar</Button>
                   </FormItem>
                 )}
               />
-              <Button type="submit">Entrar</Button>
-
-              <div className="flex justify-between items-center mb-6">
-                <a
-                  href="#"
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                >
-                  Esqueceu a senha?
-                </a>
-              </div>
 
               <div className="relative my-6">
                 <Separator className="bg-gray-300" />
@@ -153,12 +167,12 @@ export default function Login() {
               {/* Sign Up Link */}
               <div className="text-center mt-8">
                 <p className="text-gray-600">
-                  Não tem uma conta?{" "}
+                  ja tem um conta?{" "}
                   <a
-                    href="cadastro"
+                    href="/"
                     className="text-blue-600 hover:text-blue-800 font-medium"
                   >
-                    Cadastrar
+                    Login
                   </a>
                 </p>
               </div>
