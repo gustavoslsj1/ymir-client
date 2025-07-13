@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import {
@@ -22,44 +22,43 @@ import {
   EyeOff,
   Mail,
   Lock,
-  Percent,
-  Sparkles,
-  Clock,
-  CircleDot,
   Globe,
   Zap,
   Shield,
   ArrowRight,
 } from "lucide-react";
-import { LoginUser } from "@/app/service/userService";
+import { creatUser } from "@/app/service/userService";
 
 export const userFormSchema = z.object({
+  name: z.string(), // valor padrão no schema
   email: z.string().email("Email inválido"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });
 
-export default function Login() {
+export default function Cadastro() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, seterror] = useState<string>("");
   const router = useRouter();
+
   const form = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
   async function handleSubmit(data: z.infer<typeof userFormSchema>) {
     seterror("");
     try {
-      const response = await LoginUser(data);
+      console.log("Dados do usuário:", data);
 
-      const token = response.token;
+      await creatUser(data);
 
-      console.log("token", token);
-      router.replace("/authenticated");
+      console.log("Usuário criado com sucesso!");
       form.reset();
+      router.replace("/");
     } catch (error: any) {
       const message =
         error?.response?.data?.message ??
@@ -74,10 +73,11 @@ export default function Login() {
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-12 md:px-12 lg:px-16">
         <div className="w-full max-w-md">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-black mb-2 text-center">
-              Login
+            <h1 className="text-3xl font-bold text-gray-800 text-center mb-2">
+              Cadastro
             </h1>
-            <p className="text-gray-600  font-medium text-center ">
+            <p className="text-gray-600 font-medium text-center">
+              {" "}
               Bem vindo ao Ymir
             </p>
           </div>
@@ -87,11 +87,6 @@ export default function Login() {
               onSubmit={form.handleSubmit(handleSubmit)}
               className="w-full space-y-4"
             >
-              {error && (
-                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                  {error}
-                </div>
-              )}
               <FormField
                 control={form.control}
                 name="email"
@@ -116,7 +111,30 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Mail
+                          size={18}
+                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        />
+                        <Input
+                          type="nome"
+                          placeholder="usuario"
+                          className="pl-10 h-12 rounded-md"
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="password"
@@ -149,25 +167,16 @@ export default function Login() {
                       </div>
                     </FormControl>
                     <FormMessage />
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 cursor-pointer hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2 group"
+                    >
+                      Cadastrar
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2 group"
-              >
-                Entrar
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-
-              <div className="flex justify-between items-center mb-6">
-                <a
-                  href="#"
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                >
-                  Esqueceu a senha?
-                </a>
-              </div>
 
               <div className="relative my-6">
                 <Separator className="bg-gray-300" />
@@ -175,12 +184,12 @@ export default function Login() {
 
               <div className="text-center mt-8">
                 <p className="text-gray-600">
-                  Não tem uma conta?{" "}
+                  ja tem um conta?{" "}
                   <a
-                    href="cadastro"
+                    href="/"
                     className="text-blue-600 hover:text-blue-800 font-medium"
                   >
-                    Cadastrar
+                    Login
                   </a>
                 </p>
               </div>
@@ -232,7 +241,7 @@ export default function Login() {
               </p>
             </div>
 
-            <div className="group">
+            <div className="group ">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-300/20 hover:bg-white/20 hover:border-blue-300/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                 <Zap className="w-10 h-10 text-cyan-300 mx-auto" />
               </div>
@@ -242,7 +251,7 @@ export default function Login() {
             </div>
 
             <div className="group ">
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-300/20 hover:bg-white/20 hover:border-blue-300/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+              <div className="bg-white/10 backdrop-blur-lg  rounded-2xl p-6 border border-blue-300/20 hover:bg-white/20 hover:border-blue-300/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                 <Globe
                   className="w-10 h-10 text-blue-400 mx-auto animate-spin"
                   style={{ animationDuration: "4s" }}

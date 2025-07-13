@@ -49,13 +49,11 @@ export const LoginUser = async (userData: LoginUserRequest) => {
     },
     body: JSON.stringify(userData),
   });
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(`Erro na requisição: ${response.status}`);
+    throw new Error(data.message || `Erro na requisição: ${response.status}`);
   }
 
- 
-
-  const data = await response.json();
   return data;
 };
