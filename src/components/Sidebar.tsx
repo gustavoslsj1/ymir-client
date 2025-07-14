@@ -15,7 +15,7 @@ export function AppSidebar() {
         <div className="flex items-center space-x-2">
           <ChartArea className="h-6 w-6 text-blue-600" />
           <h1 className="text-lg font-bold text-slate-900 dark:text-white">
-            ymir
+            <a href="/"> ymir</a>
           </h1>
         </div>
       </div>

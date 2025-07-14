@@ -53,11 +53,7 @@ export default function Login() {
   async function handleSubmit(data: z.infer<typeof userFormSchema>) {
     seterror("");
     try {
-      const response = await LoginUser(data);
-
-      const token = response.token;
-
-      console.log("token", token);
+      await LoginUser(data);
       router.replace("/authenticated");
       form.reset();
     } catch (error: any) {

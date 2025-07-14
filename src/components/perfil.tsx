@@ -1,5 +1,5 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import {
   User,
   Mail,
@@ -10,17 +10,44 @@ import {
   LogOut,
   Edit,
 } from "lucide-react";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
+type DecodedUser = {
+  sub: number;
+  name: string;
+  email: string;
+  iat: number;
+  exp: number;
+  aud: string;
+  iss: string;
+};
 export default function Perfil() {
   const [activeTab, setActiveTab] = useState("informacoes");
+  const [user, setUser] = useState<DecodedUser | null>(null);
+  useEffect(() => {
+    const token = Cookies.get("auth");
+    if (token) {
+      try {
+        const decoded: DecodedUser = jwtDecode(token);
+        setUser(decoded);
+      } catch (err) {
+        console.error("Token inválido", err);
+      }
+    }
+  }, []);
 
-  const user = {
-    name: "Chico Lucas",
-    email: "chico.lucas@email.com",
-    phone: "(11) 98765-4321",
-    plan: "Plano Rico",
-    joinedDate: "10/01/2025",
-    avatarInitial: "C",
+  function update() {
+    try {
+    } catch (err) {}
+  }
+  const userData = {
+    name: user?.name?.split("@")[0] ?? "Usuário",
+    email: user?.email ?? "",
+    phone: "(11) 00000-0000",
+    plan: "Plano Básico",
+    joinedDate: "01/01/2025",
+    avatarInitial: user?.email?.charAt(0).toUpperCase() ?? "U",
   };
 
   return (
@@ -37,11 +64,11 @@ export default function Perfil() {
           <div className="bg-gray-800 rounded-lg p-6 mb-6">
             <div className="flex flex-col items-center text-center">
               <div className="h-24 w-24 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-bold mb-4">
-                {user.avatarInitial}
+                {userData.avatarInitial}
               </div>
-              <h3 className="text-xl font-semibold">{user.name}</h3>
-              <p className="text-gray-400 mb-2">{user.email}</p>
-              <p className="text-blue-400 font-medium">{user.plan}</p>
+              <h3 className="text-xl font-semibold">{userData.name}</h3>
+              <p className="text-gray-400 mb-2">{userData.email}</p>
+              <p className="text-blue-400 font-medium">{userData.plan}</p>
               <button className="flex items-center mt-4 text-sm text-gray-400 hover:text-white">
                 <Edit size={14} className="mr-2" />
                 Editar Foto
@@ -120,7 +147,7 @@ export default function Perfil() {
                       <input
                         type="text"
                         className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue={user.name}
+                        defaultValue={userData.name}
                       />
                     </div>
 
@@ -142,7 +169,7 @@ export default function Perfil() {
                       <input
                         type="email"
                         className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue={user.email}
+                        defaultValue={userData.email}
                       />
                     </div>
 
@@ -153,7 +180,7 @@ export default function Perfil() {
                       <input
                         type="tel"
                         className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue={user.phone}
+                        defaultValue={userData.phone}
                       />
                     </div>
                   </div>
