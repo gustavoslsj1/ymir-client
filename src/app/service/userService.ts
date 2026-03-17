@@ -55,6 +55,7 @@ export const LoginUser = async (userData: LoginUserRequest) => {
   if (!response.ok) {
     throw new Error(data.message || `Erro na requisição: ${response.status}`);
   }
+  console.log("oiiii");
 
   return data;
 };

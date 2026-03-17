@@ -11,6 +11,7 @@ import {
   Phone,
   Calendar,
   Building,
+  X,
 } from "lucide-react";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
@@ -310,7 +311,7 @@ export default function Clients() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${getStatusColor(
-                          client.status
+                          client.status,
                         )}`}
                       >
                         {client.status}

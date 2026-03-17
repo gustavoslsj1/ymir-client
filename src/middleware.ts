@@ -7,32 +7,32 @@ export async function middleware(request: NextRequest) {
 
   console.log(`[${new Date().toISOString()}] ${request.method} ${pathname}`);
 
-  if (pathname.startsWith("/authenticated")) {
-    const token = request.cookies.get("auth")?.value;
+  // if (pathname.startsWith("/authenticated")) {
+  //   const token = request.cookies.get("auth")?.value;
 
-    console.log("Token no middleware:", token);
+  //   console.log("Token no middleware:", token);
 
-    if (!token) {
-      console.log("Token não encontrado, redirecionando para login");
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  //   if (!token) {
+  //     console.log("Cookie não encontrado, redirecionando para login");
+  //     return NextResponse.redirect(new URL("/", request.url));
+  //   }
 
-    try {
-      const secret = new TextEncoder().encode(
-        process.env.JWT_SECRET || "your-secret-key"
-      );
-      await jwtVerify(token, secret);
+  //   try {
+  //     const secret = new TextEncoder().encode(
+  //       process.env.JWT_SECRET || "your-secret-key",
+  //     );
+  //     await jwtVerify(token, secret);
 
-      console.log("Token válido, permitindo acesso");
-      return NextResponse.next();
-    } catch (error) {
-      console.log("Token inválido:", error);
+  //     console.log("Token válido, permitindo acesso");
+  //     return NextResponse.next();
+  //   } catch (error) {
+  //     console.log("Token inválido:", error);
 
-      const response = NextResponse.redirect(new URL("/", request.url));
-      response.cookies.delete("auth");
-      return response;
-    }
-  }
+  //     const response = NextResponse.redirect(new URL("/", request.url));
+  //     response.cookies.delete("auth");
+  //     return response;
+  //   }
+  // }
 
   return NextResponse.next();
 }

@@ -152,7 +152,8 @@ export default function Login() {
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2 group"
               >
-                Entrar
+                <a href="">Entrar</a>
+
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
 
